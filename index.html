@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6c4cf1">
+  <title>Tabliczka mnożenia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shape shape-one" aria-hidden="true"></div>
+  <div class="shape shape-two" aria-hidden="true"></div>
+
+  <header class="hero">
+    <div class="logo" aria-hidden="true">×</div>
+    <div>
+      <p class="eyebrow">Trening dla klas 2–4</p>
+      <h1>Tabliczka mnożenia</h1>
+      <p>Ćwicz działania, rozwiązuj historyjki i obserwuj swoje postępy!</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="setup-screen" class="card setup-card" aria-labelledby="setup-title">
+      <div class="section-heading">
+        <span class="step-number">1</span>
+        <div>
+          <h2 id="setup-title">Wybierz tabliczki</h2>
+          <p>Zaznacz jedną, kilka albo wszystkie.</p>
+        </div>
+      </div>
+
+      <div class="all-row">
+        <label class="all-option">
+          <input id="select-all" type="checkbox" checked>
+          <span>Wszystkie tabliczki 2–10</span>
+        </label>
+      </div>
+      <div id="number-options" class="number-grid" aria-label="Wybór tabliczek mnożenia">
+        <label><input type="checkbox" value="2" checked><span>× 2</span></label>
+        <label><input type="checkbox" value="3" checked><span>× 3</span></label>
+        <label><input type="checkbox" value="4" checked><span>× 4</span></label>
+        <label><input type="checkbox" value="5" checked><span>× 5</span></label>
+        <label><input type="checkbox" value="6" checked><span>× 6</span></label>
+        <label><input type="checkbox" value="7" checked><span>× 7</span></label>
+        <label><input type="checkbox" value="8" checked><span>× 8</span></label>
+        <label><input type="checkbox" value="9" checked><span>× 9</span></label>
+        <label><input type="checkbox" value="10" checked><span>× 10</span></label>
+      </div>
+
+      <div class="section-heading compact">
+        <span class="step-number coral">2</span>
+        <div>
+          <h2>Ile zadań?</h2>
+          <p>W każdym treningu połowa pytań jest tekstowa.</p>
+        </div>
+      </div>
+      <div class="length-options">
+        <label><input type="radio" name="task-count" value="10" checked><span><strong>10</strong> zadań</span></label>
+        <label><input type="radio" name="task-count" value="20"><span><strong>20</strong> zadań</span></label>
+      </div>
+      <p id="setup-error" class="error" role="alert"></p>
+      <button id="start-button" class="primary-button" type="button">Zaczynamy! <span aria-hidden="true">🚀</span></button>
+    </section>
+
+    <section id="quiz-screen" class="card quiz-card" hidden aria-live="polite">
+      <div class="quiz-topbar">
+        <span id="task-kind" class="kind-badge">Działanie</span>
+        <span id="progress-label">Zadanie 1 z 10</span>
+      </div>
+      <div class="progress-track" aria-hidden="true"><div id="progress-bar"></div></div>
+      <div class="question-area">
+        <p id="question-prompt" class="question-prompt"></p>
+        <label for="answer-input">Twoja odpowiedź</label>
+        <input id="answer-input" type="number" inputmode="numeric" autocomplete="off" aria-describedby="feedback">
+        <p id="feedback" class="feedback" role="status"></p>
+      </div>
+      <button id="check-button" class="primary-button" type="button">Sprawdź</button>
+    </section>
+
+    <section id="summary-screen" class="card summary-card" hidden>
+      <div class="celebration" aria-hidden="true">🎉</div>
+      <p class="eyebrow">Trening zakończony</p>
+      <h2>Świetna robota!</h2>
+      <div class="result-grid">
+        <div class="result-tile purple"><strong id="summary-accuracy">0%</strong><span>poprawnych</span></div>
+        <div class="result-tile blue"><strong id="summary-simple">–</strong><span>średnio — działania</span></div>
+        <div class="result-tile coral"><strong id="summary-text">–</strong><span>średnio — tekstowe</span></div>
+      </div>
+      <p id="summary-detail" class="summary-detail"></p>
+      <div id="incorrect-review-section" class="incorrect-review" hidden>
+        <h3>Warto powtórzyć</h3>
+        <p>Poniżej są zadania wykonane błędnie i ich poprawne odpowiedzi.</p>
+        <ol id="incorrect-review"></ol>
+      </div>
+      <button id="again-button" class="primary-button" type="button">Kolejny trening</button>
+    </section>
+
+    <section class="card history-card" aria-labelledby="history-title">
+      <div class="history-heading">
+        <div>
+          <p class="eyebrow">Do 100 ostatnich treningów</p>
+          <h2 id="history-title">Twoje postępy</h2>
+        </div>
+        <button id="clear-history" class="text-button" type="button">Wyczyść historię</button>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="dot purple-dot"></i>Poprawne odpowiedzi (%)</span>
+        <span><i class="dot blue-dot"></i>Działania (sek.)</span>
+        <span><i class="dot coral-dot"></i>Tekstowe (sek.)</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="history-chart" height="340" aria-label="Wykres wyników treningów" role="img"></canvas>
+        <p id="empty-history" class="empty-state">Ukończ pierwszy trening, a tutaj pojawi się wykres.</p>
+      </div>
+      <p class="chart-note">Lewa oś: procent poprawnych odpowiedzi · prawa oś: średni czas w sekundach</p>
+    </section>
+  </main>
+
+  <footer>Powodzenia! Każda odpowiedź to krok do mistrzostwa ⭐</footer>
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
