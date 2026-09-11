@@ -2,52 +2,48 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const trainer = require('../logic.js');
 
-test('generator tworzy zbalansowany trening bez powtórzeń dla wybranych tabliczek', () => {
+test('generator tworzy trening złożony wyłącznie ze zwykłych działań', () => {
   const tasks = trainer.generateTasks([2, 5, 10], 10, () => 0.42);
 
   assert.equal(tasks.length, 10);
-  assert.equal(tasks.filter((task) => task.type === 'simple').length, 5);
-  assert.equal(tasks.filter((task) => task.type === 'text').length, 5);
+  assert.ok(tasks.every((task) => task.type === 'simple'));
+  assert.ok(tasks.every((task) => /^\d+ × \d+ = \?$/.test(task.prompt)));
   assert.equal(new Set(tasks.map((task) => task.id)).size, 10);
   assert.ok(tasks.every((task) => [2, 5, 10].includes(task.factorA)));
   assert.ok(tasks.every((task) => task.factorB >= 2 && task.factorB <= 10));
   assert.ok(tasks.every((task) => task.answer === task.factorA * task.factorB));
 });
 
-test('generator tworzy pełne 20 zadań także dla jednej wybranej tabliczki', () => {
+test('generator tworzy pełne 20 zwykłych działań także dla jednej wybranej tabliczki', () => {
   const tasks = trainer.generateTasks([7], 20, () => 0.31);
 
   assert.equal(tasks.length, 20);
-  assert.equal(tasks.filter((task) => task.type === 'simple').length, 10);
-  assert.equal(tasks.filter((task) => task.type === 'text').length, 10);
+  assert.ok(tasks.every((task) => task.type === 'simple'));
   assert.ok(tasks.every((task) => task.factorA === 7));
 });
 
-test('podsumowanie liczy skuteczność i czasy tylko z odpowiedzi poprawnych za pierwszym razem', () => {
+test('podsumowanie liczy jeden średni czas tylko z odpowiedzi poprawnych za pierwszym razem', () => {
   const summary = trainer.summarizeResults([
     { type: 'simple', correct: true, elapsedMs: 2000 },
     { type: 'simple', correct: false, resolvedOnAttempt: 2, elapsedMs: 4000 },
-    { type: 'text', correct: false, resolvedOnAttempt: null, elapsedMs: 6000 },
-    { type: 'text', correct: true, elapsedMs: 10000 }
+    { type: 'simple', correct: false, resolvedOnAttempt: null, elapsedMs: 6000 },
+    { type: 'simple', correct: true, elapsedMs: 10000 }
   ]);
 
   assert.deepEqual(summary, {
     total: 4,
     correct: 2,
     accuracyPercent: 50,
-    averageSimpleSeconds: 2,
-    averageTextSeconds: 10
+    averageSeconds: 6
   });
 });
 
-test('brak odpowiedzi poprawnej za pierwszym razem daje pustą średnią dla danego typu', () => {
+test('brak odpowiedzi poprawnej za pierwszym razem daje pustą średnią', () => {
   const summary = trainer.summarizeResults([
-    { type: 'simple', correct: false, resolvedOnAttempt: 2, elapsedMs: 3000 },
-    { type: 'text', correct: true, elapsedMs: 5000 }
+    { type: 'simple', correct: false, resolvedOnAttempt: 2, elapsedMs: 3000 }
   ]);
 
-  assert.equal(summary.averageSimpleSeconds, null);
-  assert.equal(summary.averageTextSeconds, 5);
+  assert.equal(summary.averageSeconds, null);
 });
 
 test('tylko poprawna pierwsza próba jest klasyfikowana jako poprawne zadanie', () => {

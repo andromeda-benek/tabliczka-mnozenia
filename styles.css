@@ -126,7 +126,7 @@ input[type="checkbox"] { accent-color: var(--purple); width: 20px; height: 20px;
 
 .summary-card { text-align: center; }
 .celebration { font-size: 4rem; }
-.result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0 20px; }
+.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 28px 0 20px; }
 .result-tile { padding: 24px 12px; border-radius: 22px; }
 .result-tile strong { display: block; font-size: clamp(1.8rem, 5vw, 2.75rem); }
 .result-tile span { display: block; margin-top: 4px; font-size: .82rem; font-weight: 800; }

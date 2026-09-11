@@ -8,15 +8,15 @@ Statyczna, kolorowa strona dla uczniów klas 2–4 służąca do ćwiczenia mno�
 
 - wybór jednej, kilku lub wszystkich tabliczek 2–10,
 - trening 10 albo 20 pytań,
-- równy podział na działania i zadania tekstowe,
+- wyłącznie zwykłe działania matematyczne,
 - odpowiedź z klawiatury i zatwierdzanie Enterem,
 - druga próba po błędzie,
 - natychmiastowe pokazanie prawidłowego wyniku po drugim błędzie i oczekiwanie na przycisk `OK`,
 - końcowa lista błędnych zadań zawierająca wyłącznie poprawne odpowiedzi,
 - procent poprawnych zadań,
-- średni czas obu typów pytań,
+- jeden średni czas rozwiązywania zadań,
 - historia do 100 treningów w `localStorage`,
-- wykres trzech serii z dwiema osiami wartości,
+- wykres dwóch serii z dwiema osiami wartości,
 - działanie z lokalnego `index.html` bez bibliotek zewnętrznych.
 
 ## Stabilne zachowania — nie zmieniać bez zgody
@@ -24,15 +24,15 @@ Statyczna, kolorowa strona dla uczniów klas 2–4 służąca do ćwiczenia mno�
 - zakres ćwiczeń wynosi 2–10,
 - użytkownik może wybrać konkretne liczby albo wszystkie,
 - sesja zawiera dokładnie 10 albo 20 pytań,
-- połowa pytań jest zwykła, a połowa tekstowa,
+- wszystkie pytania są zwykłymi działaniami,
 - po pierwszym błędzie dostępna jest druga próba,
 - zadanie zalicza się jako poprawne wyłącznie po poprawnej pierwszej odpowiedzi,
 - poprawna odpowiedź za drugim razem jest liczona jako błędne zadanie i trafia do sekcji `Warto powtórzyć`,
 - po drugim błędzie natychmiast pokazuje się prawidłową odpowiedź,
 - po drugim błędzie przejście dalej jest możliwe dopiero po zatwierdzeniu przyciskiem `OK`,
 - podsumowanie wymienia wszystkie zadania z błędną pierwszą próbą i pokazuje wyłącznie poprawne odpowiedzi, bez błędnych wpisów użytkownika,
-- średni czas każdego typu pytań obejmuje wyłącznie zadania poprawne za pierwszym razem,
-- jeśli nie ma poprawnej pierwszej odpowiedzi danego typu, jego średni czas ma wartość pustą i jest wyświetlany jako `–`,
+- średni czas obejmuje wyłącznie zadania poprawne za pierwszym razem,
+- jeśli nie ma żadnej poprawnej pierwszej odpowiedzi, średni czas ma wartość pustą i jest wyświetlany jako `–`,
 - historia zawiera najwyżej 100 najnowszych treningów,
 - aplikacja pozostaje statyczna i działa bez usług sieciowych,
 - wykres pokazuje procenty na lewej osi i sekundy na prawej.
@@ -54,8 +54,7 @@ Statyczna, kolorowa strona dla uczniów klas 2–4 służąca do ćwiczenia mno�
 ## Pliki, które można zmieniać przy typowych poprawkach
 
 - `README.md`,
-- testy, jeżeli rozszerzają pokrycie bez zmiany kontraktu,
-- teksty zadań w `TEXT_TEMPLATES`, jeżeli nadal są proste i jednoznaczne.
+- testy, jeżeli rozszerzają pokrycie bez zmiany kontraktu.
 
 ## Procedura zmiany
 
@@ -74,20 +73,20 @@ Jeżeli zmiana wymaga edycji pliku stabilnego, AI musi najpierw uzyskać zgodę.
 Po każdej zmianie sprawdzić:
 
 - [ ] `node --test tests/*.test.js` przechodzi bez błędów,
-- [ ] trening 10-zadaniowy zawiera po 5 pytań obu typów,
-- [ ] trening 20-zadaniowy działa również dla jednej tabliczki,
+- [ ] trening 10-zadaniowy zawiera wyłącznie zwykłe działania,
+- [ ] trening 20-zadaniowy zawiera wyłącznie zwykłe działania i działa również dla jednej tabliczki,
 - [ ] druga błędna odpowiedź pokazuje wynik i przycisk `OK`,
 - [ ] bez zatwierdzenia `OK` następne pytanie nie jest wyświetlane,
 - [ ] Enter użyty do zatwierdzenia drugiej odpowiedzi nie aktywuje automatycznie przycisku `OK`,
 - [ ] odpowiedź poprawna dopiero za drugim razem obniża procent poprawnych zadań,
 - [ ] odpowiedź poprawna dopiero za drugim razem trafia do listy `Warto powtórzyć`,
 - [ ] czasy zadań z błędną pierwszą próbą nie wpływają na średnie,
-- [ ] brak poprawnej pierwszej odpowiedzi danego typu daje średni czas `–`,
+- [ ] brak poprawnej pierwszej odpowiedzi daje średni czas `–`,
 - [ ] podsumowanie pokazuje błędne zadania i tylko ich poprawne odpowiedzi,
 - [ ] podsumowanie nie pokazuje listy powtórkowej, jeśli wszystkie zadania były poprawne,
-- [ ] podsumowanie pokazuje procent i oba czasy,
+- [ ] podsumowanie pokazuje procent i jeden średni czas,
 - [ ] zapisany zostaje najwyżej setny najnowszy trening,
-- [ ] wykres ma trzy serie oraz dwie poprawnie opisane skale,
+- [ ] wykres ma dwie serie oraz dwie poprawnie opisane skale,
 - [ ] konsola przeglądarki nie zawiera błędów,
 - [ ] interfejs pozostaje czytelny na komputerze i telefonie.
 

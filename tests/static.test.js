@@ -20,6 +20,17 @@ test('strona nie wymaga zewnętrznych bibliotek ani serwera', () => {
   assert.doesNotMatch(html, /type=["']module["']/);
 });
 
+test('interfejs i historia pokazują tylko jeden typ zadań i jeden średni czas', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+
+  assert.doesNotMatch(html, /tekstow|historyjk/i);
+  assert.doesNotMatch(html, /id=["']summary-text["']/);
+  assert.match(html, /średni czas/i);
+  assert.match(app, /averageSeconds/);
+  assert.doesNotMatch(app, /averageTextSeconds/);
+});
+
 test('podsumowanie ma listę błędnych zadań, a drugi błąd wymaga zatwierdzenia OK', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');

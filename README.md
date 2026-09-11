@@ -6,13 +6,13 @@ Kolorowa statyczna strona do ćwiczenia tabliczki mnożenia dla klas 2–4.
 
 - wybór tabliczek od 2 do 10 lub wszystkich naraz,
 - trening 10- albo 20-zadaniowy,
-- równa liczba zwykłych działań i prostych zadań tekstowych,
+- wyłącznie zwykłe działania matematyczne,
 - dwie próby odpowiedzi; po drugim błędzie pokazanie wyniku i oczekiwanie na zatwierdzenie przyciskiem **OK**,
 - końcowa lista błędnie wykonanych zadań zawierająca wyłącznie ich poprawne odpowiedzi,
 - procent poprawnie rozwiązanych zadań,
-- osobny średni czas dla działań i zadań tekstowych,
+- jeden średni czas rozwiązywania zadań,
 - historia maksymalnie 100 ostatnich treningów w `localStorage`,
-- wykres historii: skuteczność oraz dwa średnie czasy,
+- wykres historii: skuteczność oraz średni czas,
 - responsywny interfejs działający bez serwera i bez zależności zewnętrznych.
 
 ## Uruchomienie
@@ -52,8 +52,8 @@ node --test tests/*.test.js
 - Po drugiej błędnej próbie zadanie jest liczone jako niepoprawne, poprawna odpowiedź pojawia się natychmiast, a przejście dalej następuje dopiero po zatwierdzeniu przyciskiem **OK**.
 - Podsumowanie wymienia wszystkie zadania, w których pierwsza próba była błędna, i pokazuje tylko ich poprawne odpowiedzi; błędne wpisy użytkownika nie są wyświetlane.
 - Średni czas jest liczony wyłącznie z zadań rozwiązanych poprawnie za pierwszym razem. Zadania z błędną pierwszą próbą są całkowicie pomijane w średniej.
-- Jeśli dla danego typu nie ma żadnego zadania poprawnego za pierwszym razem, średni czas jest wyświetlany jako `–`.
-- Każdy trening ma po połowie działań i zadań tekstowych.
+- Jeśli nie ma żadnego zadania poprawnego za pierwszym razem, średni czas jest wyświetlany jako `–`.
+- Każdy trening składa się wyłącznie ze zwykłych działań.
 - Wykres używa dwóch skal: procentów po lewej i sekund po prawej.
 
 ## Publikacja

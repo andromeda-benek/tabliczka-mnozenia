@@ -11,8 +11,8 @@
     prompt: $('question-prompt'), kind: $('task-kind'), progressLabel: $('progress-label'),
     progressBar: $('progress-bar'), answer: $('answer-input'), feedback: $('feedback'),
     check: $('check-button'), start: $('start-button'), again: $('again-button'),
-    summaryAccuracy: $('summary-accuracy'), summarySimple: $('summary-simple'),
-    summaryText: $('summary-text'), summaryDetail: $('summary-detail'),
+    summaryAccuracy: $('summary-accuracy'), summaryAverage: $('summary-average'),
+    summaryDetail: $('summary-detail'),
     incorrectReviewSection: $('incorrect-review-section'), incorrectReview: $('incorrect-review'),
     chart: $('history-chart'), emptyHistory: $('empty-history'), clearHistory: $('clear-history')
   };
@@ -78,9 +78,9 @@
     state.completed = false;
     state.startedAt = performance.now();
     elements.prompt.textContent = task.prompt;
-    elements.kind.textContent = task.type === 'simple' ? 'Działanie' : 'Zadanie tekstowe';
-    elements.kind.style.background = task.type === 'simple' ? 'var(--purple-soft)' : 'var(--coral-soft)';
-    elements.kind.style.color = task.type === 'simple' ? 'var(--purple-dark)' : '#c44741';
+    elements.kind.textContent = 'Działanie';
+    elements.kind.style.background = 'var(--purple-soft)';
+    elements.kind.style.color = 'var(--purple-dark)';
     elements.progressLabel.textContent = `Zadanie ${state.current + 1} z ${state.tasks.length}`;
     elements.progressBar.style.width = `${((state.current + 1) / state.tasks.length) * 100}%`;
     elements.answer.value = '';
@@ -165,14 +165,12 @@
       id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
       date: new Date().toISOString(),
       accuracyPercent: summary.accuracyPercent,
-      averageSimpleSeconds: summary.averageSimpleSeconds,
-      averageTextSeconds: summary.averageTextSeconds,
+      averageSeconds: summary.averageSeconds,
       taskCount: summary.total
     };
     saveJson(STORAGE_HISTORY, MathTrainer.addHistoryEntry(history(), entry));
     elements.summaryAccuracy.textContent = `${summary.accuracyPercent}%`;
-    elements.summarySimple.textContent = formatSeconds(summary.averageSimpleSeconds);
-    elements.summaryText.textContent = formatSeconds(summary.averageTextSeconds);
+    elements.summaryAverage.textContent = formatSeconds(summary.averageSeconds);
     elements.summaryDetail.textContent = `${summary.correct} poprawnych z ${summary.total} zadań.`;
     renderIncorrectReview();
     showScreen('summary');
@@ -203,7 +201,8 @@
     const pad = { left: 48, right: 48, top: 24, bottom: 48 };
     const chartW = width - pad.left - pad.right;
     const chartH = height - pad.top - pad.bottom;
-    const maxSeconds = Math.max(10, ...data.flatMap((item) => [item.averageSimpleSeconds || 0, item.averageTextSeconds || 0]));
+    const historyAverageSeconds = (item) => Number.isFinite(item.averageSeconds) ? item.averageSeconds : null;
+    const maxSeconds = Math.max(10, ...data.map((item) => historyAverageSeconds(item) || 0));
     const roundedMaxSeconds = Math.ceil(maxSeconds / 5) * 5;
     const x = (index) => pad.left + (data.length === 1 ? chartW / 2 : index * chartW / (data.length - 1));
     const yPercent = (value) => pad.top + chartH - (value / 100) * chartH;
@@ -220,21 +219,26 @@
       ctx.textAlign = 'left'; ctx.fillText(`${Math.round(tick * roundedMaxSeconds / 4)}s`, width - pad.right + 8, y + 4);
     }
 
-    const drawSeries = (key, color, yFn) => {
+    const drawSeries = (getValue, color, yFn) => {
       ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3; ctx.lineJoin = 'round';
       ctx.beginPath();
+      let drawing = false;
       data.forEach((item, index) => {
-        const px = x(index); const py = yFn(item[key] || 0);
-        if (index === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        const value = getValue(item);
+        if (value == null) { drawing = false; return; }
+        const px = x(index); const py = yFn(value);
+        if (!drawing) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        drawing = true;
       });
       ctx.stroke();
       data.forEach((item, index) => {
-        ctx.beginPath(); ctx.arc(x(index), yFn(item[key] || 0), 3.5, 0, Math.PI * 2); ctx.fill();
+        const value = getValue(item);
+        if (value == null) return;
+        ctx.beginPath(); ctx.arc(x(index), yFn(value), 3.5, 0, Math.PI * 2); ctx.fill();
       });
     };
-    drawSeries('accuracyPercent', '#6c4cf1', yPercent);
-    drawSeries('averageSimpleSeconds', '#18a9d6', ySeconds);
-    drawSeries('averageTextSeconds', '#ff7168', ySeconds);
+    drawSeries((item) => item.accuracyPercent, '#6c4cf1', yPercent);
+    drawSeries(historyAverageSeconds, '#18a9d6', ySeconds);
 
     const labels = Math.min(6, data.length);
     ctx.fillStyle = '#777e94'; ctx.textAlign = 'center'; ctx.font = '11px Trebuchet MS, sans-serif';

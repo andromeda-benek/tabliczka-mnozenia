@@ -5,13 +5,6 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
-  const TEXT_TEMPLATES = [
-    (a, b) => `W ${a} pudełkach jest po ${b} kredek. Ile kredek jest razem?`,
-    (a, b) => `Na ${a} talerzach leży po ${b} ciastek. Ile ciastek leży na talerzach?`,
-    (a, b) => `${a} dzieci dostało po ${b} naklejek. Ile naklejek rozdano?`,
-    (a, b) => `W ogrodzie jest ${a} rzędów po ${b} kwiatów. Ile jest wszystkich kwiatów?`,
-    (a, b) => `Do ${a} plecaków włożono po ${b} zeszytów. Ile zeszytów włożono?`
-  ];
 
   function shuffle(items, random = Math.random) {
     const copy = items.slice();
@@ -22,16 +15,14 @@
     return copy;
   }
 
-  function makeTask(type, a, b, templateIndex = 0) {
+  function makeTask(a, b) {
     return {
-      id: `${type}-${a}-${b}`,
-      type,
+      id: `simple-${a}-${b}`,
+      type: 'simple',
       factorA: a,
       factorB: b,
       answer: a * b,
-      prompt: type === 'simple'
-        ? `${a} × ${b} = ?`
-        : TEXT_TEMPLATES[templateIndex % TEXT_TEMPLATES.length](a, b)
+      prompt: `${a} × ${b} = ?`
     };
   }
 
@@ -46,14 +37,14 @@
       for (let b = 2; b <= 10; b += 1) operations.push([a, b]);
     });
 
-    function pool(type, targetCount) {
+    function pool(targetCount) {
       const tasks = [];
       let round = 0;
       while (tasks.length < targetCount) {
         const shuffled = shuffle(operations, random);
-        shuffled.forEach(([a, b], index) => {
+        shuffled.forEach(([a, b]) => {
           if (tasks.length >= targetCount) return;
-          const task = makeTask(type, a, b, index + round);
+          const task = makeTask(a, b);
           if (round > 0) task.id = `${task.id}-round-${round}`;
           tasks.push(task);
         });
@@ -62,26 +53,20 @@
       return tasks;
     }
 
-    const perType = count / 2;
-    const simple = pool('simple', perType);
-    const text = pool('text', perType);
-    return shuffle(simple.concat(text), random);
+    return pool(count);
   }
 
   function summarizeResults(results) {
-    const averageSeconds = (type) => {
-      const matching = results.filter((result) => result.type === type && result.correct);
-      if (!matching.length) return null;
-      const totalMs = matching.reduce((sum, result) => sum + result.elapsedMs, 0);
-      return Math.round((totalMs / matching.length / 1000) * 10) / 10;
-    };
-    const correct = results.filter((result) => result.correct).length;
+    const correctResults = results.filter((result) => result.correct);
+    const averageSeconds = correctResults.length
+      ? Math.round((correctResults.reduce((sum, result) => sum + result.elapsedMs, 0) / correctResults.length / 1000) * 10) / 10
+      : null;
+    const correct = correctResults.length;
     return {
       total: results.length,
       correct,
       accuracyPercent: results.length ? Math.round((correct / results.length) * 100) : 0,
-      averageSimpleSeconds: averageSeconds('simple'),
-      averageTextSeconds: averageSeconds('text')
+      averageSeconds
     };
   }
 
