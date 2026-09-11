@@ -237,8 +237,8 @@
         ctx.beginPath(); ctx.arc(x(index), yFn(value), 3.5, 0, Math.PI * 2); ctx.fill();
       });
     };
-    drawSeries((item) => item.accuracyPercent, '#087f8c', yPercent);
-    drawSeries(historyAverageSeconds, '#0f6f85', ySeconds);
+    drawSeries((item) => item.accuracyPercent, '#2563eb', yPercent);
+    drawSeries(historyAverageSeconds, '#dc2626', ySeconds);
 
     const labels = Math.min(6, data.length);
     ctx.fillStyle = '#777e94'; ctx.textAlign = 'center'; ctx.font = '11px Trebuchet MS, sans-serif';

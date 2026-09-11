@@ -36,7 +36,8 @@ Statyczna, kolorowa strona dla uczniów klas 2–4 służąca do ćwiczenia mno�
 - historia zawiera najwyżej 100 najnowszych treningów,
 - aplikacja pozostaje statyczna i działa bez usług sieciowych,
 - wykres pokazuje procenty na lewej osi i sekundy na prawej,
-- zaznaczone kafelki, logo, główne przyciski, kafelki wyników i pozostałe akcenty używają ciemnej turkusowo-niebieskiej palety,
+- zaznaczone kafelki, logo, główne przyciski, kafelki wyników i pozostałe akcenty używają ciemnej turkusowo-niebieskiej palety; wyjątkiem są serie wykresu,
+- seria skuteczności na wykresie jest niebieska, a seria średniego czasu czerwona; kolory legendy odpowiadają seriom,
 - niezaznaczone kafelki pozostają białe,
 - numery kroków `1` i `2` są zielone,
 - napisy `10 zadań` i `20 zadań` są wycentrowane w swoich kafelkach.
@@ -91,6 +92,7 @@ Po każdej zmianie sprawdzić:
 - [ ] podsumowanie pokazuje procent i jeden średni czas,
 - [ ] zapisany zostaje najwyżej setny najnowszy trening,
 - [ ] wykres ma dwie serie oraz dwie poprawnie opisane skale,
+- [ ] seria skuteczności i jej legenda są niebieskie, a seria średniego czasu i jej legenda czerwone,
 - [ ] zaznaczone kafelki i główne akcenty mają turkusowo-niebieską paletę, a niezaznaczone kafelki są białe,
 - [ ] numery kroków `1` i `2` są zielone,
 - [ ] napisy `10 zadań` i `20 zadań` są wycentrowane,

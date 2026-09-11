@@ -38,14 +38,21 @@ test('napisy w kafelkach liczby zadań są wycentrowane', () => {
 
 test('interfejs używa turkusowo-niebieskiej palety, a numery kroków są zielone', () => {
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
-  const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 
   assert.match(css, /--purple:\s*#087f8c/);
   assert.match(css, /\.step-number,\s*\.step-number\.coral\s*\{[^}]*background:\s*var\(--green\)/s);
   assert.match(css, /\.number-grid input:checked \+ span,\s*\.length-options input:checked \+ span\s*\{[^}]*background:\s*var\(--purple\)/s);
   assert.match(css, /\.result-tile\.purple,\s*\.result-tile\.blue\s*\{[^}]*background:\s*var\(--purple\)/s);
-  assert.match(app, /#087f8c/);
-  assert.doesNotMatch(app, /#6c4cf1|#18a9d6/);
+});
+
+test('linie wykresu i ich oznaczenia mają różne kolory: niebieski i czerwony', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+
+  assert.match(app, /drawSeries\(\(item\) => item\.accuracyPercent, '#2563eb', yPercent\)/);
+  assert.match(app, /drawSeries\(historyAverageSeconds, '#dc2626', ySeconds\)/);
+  assert.match(css, /\.purple-dot\s*\{\s*background:\s*#2563eb;\s*\}/);
+  assert.match(css, /\.blue-dot\s*\{\s*background:\s*#dc2626;\s*\}/);
 });
 
 test('podsumowanie ma listę błędnych zadań, a drugi błąd wymaga zatwierdzenia OK', () => {

@@ -153,8 +153,8 @@ input[type="checkbox"] { accent-color: var(--purple); width: 20px; height: 20px;
 .text-button { border: 0; color: var(--muted); background: transparent; text-decoration: underline; font-size: .85rem; font-weight: 800; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0 12px; color: var(--muted); font-size: .82rem; font-weight: 800; }
 .dot { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 99px; }
-.purple-dot { background: var(--purple); }
-.blue-dot { background: var(--blue); }
+.purple-dot { background: #2563eb; }
+.blue-dot { background: #dc2626; }
 .coral-dot { background: var(--coral); }
 .chart-wrap { position: relative; min-height: 340px; border: 2px solid #dcebed; border-radius: 21px; background: white; overflow: hidden; }
 #history-chart { display: block; width: 100%; height: 340px; }
