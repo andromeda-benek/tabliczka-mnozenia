@@ -35,14 +35,18 @@ Statyczna, kolorowa strona dla uczniów klas 2–4 służąca do ćwiczenia mno�
 - jeśli nie ma żadnej poprawnej pierwszej odpowiedzi, średni czas ma wartość pustą i jest wyświetlany jako `–`,
 - historia zawiera najwyżej 100 najnowszych treningów,
 - aplikacja pozostaje statyczna i działa bez usług sieciowych,
-- wykres pokazuje procenty na lewej osi i sekundy na prawej.
+- wykres pokazuje procenty na lewej osi i sekundy na prawej,
+- zaznaczone kafelki, logo, główne przyciski, kafelki wyników i pozostałe akcenty używają ciemnej turkusowo-niebieskiej palety,
+- niezaznaczone kafelki pozostają białe,
+- numery kroków `1` i `2` są zielone,
+- napisy `10 zadań` i `20 zadań` są wycentrowane w swoich kafelkach.
 
 ## Pliki stabilne — nie zmieniać bez zgody
 
 - `index.html` — struktura ekranów i wymagane elementy interfejsu,
 - `logic.js` — generator i reguły statystyk,
 - `app.js` — przebieg treningu, zapis i wykres,
-- `styles.css` — zatwierdzony kolorowy charakter wersji 1.
+- `styles.css` — zatwierdzona turkusowo-niebieska paleta z zielonymi numerami kroków.
 
 ## Fragmenty/funkcje stabilne — nie zmieniać bez zgody
 
@@ -87,6 +91,9 @@ Po każdej zmianie sprawdzić:
 - [ ] podsumowanie pokazuje procent i jeden średni czas,
 - [ ] zapisany zostaje najwyżej setny najnowszy trening,
 - [ ] wykres ma dwie serie oraz dwie poprawnie opisane skale,
+- [ ] zaznaczone kafelki i główne akcenty mają turkusowo-niebieską paletę, a niezaznaczone kafelki są białe,
+- [ ] numery kroków `1` i `2` są zielone,
+- [ ] napisy `10 zadań` i `20 zadań` są wycentrowane,
 - [ ] konsola przeglądarki nie zawiera błędów,
 - [ ] interfejs pozostaje czytelny na komputerze i telefonie.
 

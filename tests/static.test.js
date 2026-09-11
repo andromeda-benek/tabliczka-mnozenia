@@ -31,6 +31,23 @@ test('interfejs i historia pokazują tylko jeden typ zadań i jeden średni czas
   assert.doesNotMatch(app, /averageTextSeconds/);
 });
 
+test('napisy w kafelkach liczby zadań są wycentrowane', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  assert.match(css, /\.length-options span\s*\{[^}]*justify-content:\s*center[^}]*align-items:\s*center[^}]*\}/s);
+});
+
+test('interfejs używa turkusowo-niebieskiej palety, a numery kroków są zielone', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+
+  assert.match(css, /--purple:\s*#087f8c/);
+  assert.match(css, /\.step-number,\s*\.step-number\.coral\s*\{[^}]*background:\s*var\(--green\)/s);
+  assert.match(css, /\.number-grid input:checked \+ span,\s*\.length-options input:checked \+ span\s*\{[^}]*background:\s*var\(--purple\)/s);
+  assert.match(css, /\.result-tile\.purple,\s*\.result-tile\.blue\s*\{[^}]*background:\s*var\(--purple\)/s);
+  assert.match(app, /#087f8c/);
+  assert.doesNotMatch(app, /#6c4cf1|#18a9d6/);
+});
+
 test('podsumowanie ma listę błędnych zadań, a drugi błąd wymaga zatwierdzenia OK', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
